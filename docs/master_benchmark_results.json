@@ -1,7 +1,7 @@
 {
   "metadata": {
     "execution_timestamp": "2026-11-25T08:32:17.548116+00:00",
-    "git_commit": "git_commit_not_available_or_clean_repo",
+    "git_commit": "3cd8408c919d647c09b55dc1c3c03dec6d628997",
     "random_seed": 42,
     "model_type": "svm",
     "model_file": "models/baseline_svm.joblib",

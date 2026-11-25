@@ -1,7 +1,7 @@
 # Master Benchmark Results Table
 
 **Generated**: 2026-11-25T08:32:17.548116+00:00  
-**Git Commit**: `git_commit_not_available_or_clean_repo`  
+**Git Commit**: `3cd8408c919d647c09b55dc1c3c03dec6d628997`  
 **Random Seed**: 42 | **Bootstrap Rounds**: 1000  
 **Decision Threshold**: 0.5 | **Model**: `Calibrated Linear SVM (Sublinear TF-IDF + 5 Stylometrics)`
 
