@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI vs Human Text Detector | Capstone Project</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="navbar">
+            <div class="brand">
+                <span class="logo-icon">🛡️</span>
+                <div>
+                    <h1 class="logo-title">AI vs Human Text Detector</h1>
+                    <span class="sub-badge">B.Tech Capstone Project • Classical ML & RoBERTa Transformer</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <button class="nav-btn" id="openBenchmarkBtn">📊 Benchmark Results</button>
+                <button class="nav-btn" id="openVivaBtn">🎓 Viva / Q&A Guide</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-layout">
+            <!-- Left Column: Input and Configuration -->
+            <section class="card input-section">
+                <div class="section-header">
+                    <h2>Input Text Analysis</h2>
+                    <span class="word-counter" id="wordCounter">0 words (min. 50 recommended)</span>
+                </div>
+
+                <!-- Sample Loaders -->
+                <div class="samples-bar">
+                    <span class="sample-label">Quick Test Samples:</span>
+                    <button class="chip" data-sample="ai">🤖 AI (ChatGPT)</button>
+                    <button class="chip" data-sample="human">👤 Human Essay</button>
+                    <button class="chip" data-sample="paraphrased">🔄 Paraphrased AI</button>
+                    <button class="chip" data-sample="short">⚠️ Short Text (&lt;50)</button>
+                </div>
+
+                <!-- Textarea -->
+                <div class="textarea-wrapper">
+                    <textarea id="inputText" placeholder="Paste or type English text here to analyze for AI vs Human authorship (minimum 50 words recommended for high confidence)..."></textarea>
+                </div>
+
+                <!-- Warning Alert (FR3) -->
+                <div class="alert-box warning-alert hidden" id="shortTextAlert">
+                    <span class="alert-icon">⚠️</span>
+                    <div class="alert-content">
+                        <strong>Short Text Notice:</strong> Text contains fewer than 50 words. Statistical variance is high and confidence estimates may be unreliable.
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="controls-row">
+                    <div class="model-select-group">
+                        <label for="modelSelect">Classification Model:</label>
+                        <select id="modelSelect">
+                            <option value="baseline" selected>TF-IDF + Stylometry Baseline (Linear SVM - Trained on Kaggle)</option>
+                            <option value="roberta" disabled>RoBERTa Transformer (Not Trained Yet - GPU Required)</option>
+                        </select>
+                    </div>
+                    <div class="actions-group">
+                        <button class="btn btn-secondary" id="clearBtn">Clear</button>
+                        <button class="btn btn-primary" id="analyzeBtn">
+                            <span class="btn-spinner hidden" id="btnSpinner"></span>
+                            <span class="btn-text">Detect Authorship</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Results & Explainability -->
+            <section class="card results-section" id="resultsSection">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">🔍</div>
+                    <h3>No Analysis Yet</h3>
+                    <p>Enter text on the left and click <strong>Detect Authorship</strong> to generate probabilistic predictions and sentence-level heatmaps.</p>
+                </div>
+
+                <div class="results-content hidden" id="resultsContent">
+                    <!-- Verdict Badge & Confidence Bar -->
+                    <div class="verdict-card" id="verdictCard">
+                        <div class="verdict-header">
+                            <div>
+                                <span class="verdict-tag" id="verdictTag">Likely AI-Generated</span>
+                                <h3 class="verdict-title" id="verdictTitle">AI Content Detected</h3>
+                            </div>
+                            <div class="confidence-circle" id="confidenceValue">88%</div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="progress-container">
+                            <div class="progress-labels">
+                                <span>Human: <b id="probHuman">12%</b></span>
+                                <span>AI: <b id="probAI">88%</b></span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-bar" id="progressBar"></div>
+                            </div>
+                        </div>
+
+                        <div class="model-used-info">
+                            <span>Analyzed using: <strong id="modelUsedText">RoBERTa Transformer</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Sentence Highlighting (FR8) -->
+                    <div class="analysis-box">
+                        <div class="box-header">
+                            <h4>Sentence-Level Suspicion Heatmap <small style="font-size:0.75rem; color:#94a3b8; font-weight:normal;">(Indicative only — Heuristic analysis)</small></h4>
+                            <div class="legend">
+                                <span class="legend-item"><span class="dot red"></span> High AI Risk</span>
+                                <span class="legend-item"><span class="dot yellow"></span> Mixed</span>
+                                <span class="legend-item"><span class="dot green"></span> Natural Human</span>
+                            </div>
+                        </div>
+                        <div class="sentence-heatmap" id="sentenceHeatmap">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Stylometric Features Card -->
+                    <div class="analysis-box">
+                        <div class="box-header">
+                            <h4>Extracted Stylometric Markers</h4>
+                        </div>
+                        <div class="stylometrics-grid" id="stylometricsGrid">
+                            <div class="metric-card">
+                                <span class="metric-val" id="mAvgSentLen">-</span>
+                                <span class="metric-lbl">Avg Sentence Length</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-val" id="mSentLenVar">-</span>
+                                <span class="metric-lbl">Sentence Variance</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-val" id="mTTR">-</span>
+                                <span class="metric-lbl">Type-Token Ratio (TTR)</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-val" id="mPunctRate">-</span>
+                                <span class="metric-lbl">Punctuation Rate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Button (FR7) -->
+                    <div class="feedback-strip">
+                        <span>Disagree with this verdict?</span>
+                        <button class="chip feedback-btn" id="openFeedbackBtn">✍️ Submit Label Correction</button>
+                    </div>
+
+                    <!-- Ethical Disclaimer (FR6) -->
+                    <div class="disclaimer-box">
+                        <strong>⚠️ Ethical & Technical Disclaimer:</strong> Results generated by this system are statistical estimates based on vocabulary and syntax patterns. They are intended for educational and assistive research, and must not be used as sole or definitive grounds for disciplinary or academic penalty.
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Feedback Modal (FR7) -->
+        <div class="modal-backdrop hidden" id="feedbackModal">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h3>Submit Model Feedback</h3>
+                    <button class="close-btn" id="closeFeedbackBtn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-desc">Feedback is stored locally for manual research audit only. Submissions are never used for automated retraining.</p>
+                    <div class="form-group">
+                        <label>What was the actual true author?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="trueLabel" value="Human" checked> Written by a Human</label>
+                            <label><input type="radio" name="trueLabel" value="AI"> Generated by AI</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackNotes">Notes / Context (Optional):</label>
+                        <textarea id="feedbackNotes" rows="2" placeholder="e.g. Paraphrased using tool, non-native English speaker, technical paper..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancelFeedbackBtn">Cancel</button>
+                    <button class="btn btn-primary" id="submitFeedbackBtn">Submit Correction</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benchmark Modal -->
+        <div class="modal-backdrop hidden" id="benchmarkModal">
+            <div class="modal-card wide">
+                <div class="modal-header">
+                    <h3>Academic Benchmark Comparison</h3>
+                    <button class="close-btn" id="closeBenchmarkBtn">&times;</button>
+                </div>
+                <div class="modal-body" id="benchmarkBody">
+                    <p>Loading benchmark evaluation metrics...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Viva Guide Modal -->
+        <div class="modal-backdrop hidden" id="vivaModal">
+            <div class="modal-card wide">
+                <div class="modal-header">
+                    <h3>Capstone Viva & Interview Preparation Guide</h3>
+                    <button class="close-btn" id="closeVivaBtn">&times;</button>
+                </div>
+                <div class="modal-body" id="vivaBody">
+                    <div class="viva-item">
+                        <h4>1. Why start with a baseline model?</h4>
+                        <p>A classical baseline (TF-IDF + Stylometry + Linear SVM) establishes an empirical lower bound. It proves whether the immense computational overhead and memory requirements of a deep transformer (RoBERTa) yield statistically meaningful performance gains.</p>
+                    </div>
+                    <div class="viva-item">
+                        <h4>2. Why RoBERTa over BERT or GPT?</h4>
+                        <p>RoBERTa (Robustly Optimized BERT Approach) removes BERT's Next Sentence Prediction (NSP) objective, trains with dynamic masking on 10x larger corpora, and utilizes bidirectional context. Unlike autoregressive decoder models (e.g. GPT), bidirectional encoders capture holistic syntactic cohesion across the entire passage.</p>
+                    </div>
+                    <div class="viva-item">
+                        <h4>3. What does TF-IDF capture, and what does it miss?</h4>
+                        <p>TF-IDF captures lexical frequency anomalies and n-gram repetitions (such as formulaic transition markers common in LLMs). However, it is an unordered bag-of-words representation that completely ignores syntactic word order, long-range dependencies, and semantic polysemy.</p>
+                    </div>
+                    <div class="viva-item">
+                        <h4>4. Why use F1-score and ROC-AUC rather than raw Accuracy?</h4>
+                        <p>Raw accuracy is susceptible to class prevalence skew. In educational forensics, false positives (wrongly accusing an honest student of using AI) carry catastrophic academic consequences. F1-score balances precision and recall, while ROC-AUC evaluates discrimination capacity across all threshold settings.</p>
+                    </div>
+                    <div class="viva-item">
+                        <h4>5. What are the key failure modes and limitations?</h4>
+                        <p>Detectors fail significantly on short texts (< 50 words) due to sparse stylistic signal, on heavily paraphrased AI outputs, and on non-native English speakers whose formal vocabulary often triggers false positives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Caches and virtual environments
+.pytest_cache/
+.vscode/
+.idea/
+venv/
+.venv/
+env/
+
+# Large Datasets (exceeds GitHub 100MB limit)
+data/raw/
+data/processed/train.csv
+data/processed/val.csv
+data/processed/test.csv
+
+# Transformer deep learning checkpoints (>100MB)
+models/roberta_model/
+*.safetensors
+*.bin
+
+# User feedback logs (privacy preservation)
+data/feedback.jsonl
+
+# Operating System files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store

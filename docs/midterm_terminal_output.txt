@@ -1,0 +1,25 @@
+============================================================
+FINAL-YEAR B.TECH CAPSTONE: MIDTERM EVALUATION REPORT
+============================================================
+Dataset: Kaggle AI vs Human Text (shanegerami)
+Total Corpus: 487,214 texts (1.11 GB)
+Split Protocol: Stratified 70/15/15 (Seed 42)
+Test Partition Size: 73,083 rows (Evaluated Sample: 5,000)
+Test Class Ratio: Human=3,107 | AI=1,893
+------------------------------------------------------------
+MODEL: Calibrated Linear SVM (TF-IDF + Stylometry)
+Accuracy:         99.86%
+Precision:        99.89%
+Recall:           99.74%
+F1-Score:         99.81%
+------------------------------------------------------------
+CONFUSION MATRIX (5,000 test texts):
+True Negatives (Human correctly identified): 3,105
+False Positives (Human wrongly called AI):   2
+False Negatives (AI missed as Human):        5
+True Positives (AI correctly identified):    1,888
+============================================================
+Files Generated:
+- JSON Summary: docs/midterm_results.json
+- Heatmap Plot: docs/midterm_confusion_matrix.png
+============================================================

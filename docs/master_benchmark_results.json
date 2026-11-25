@@ -1,0 +1,549 @@
+{
+  "metadata": {
+    "execution_timestamp": "2026-11-25T08:32:17.548116+00:00",
+    "git_commit": "git_commit_not_available_or_clean_repo",
+    "random_seed": 42,
+    "model_type": "svm",
+    "model_file": "models/baseline_svm.joblib",
+    "model_sha256": "7E341388C10880139CD3B0ADA2419E7C0A5115B7BACB555C2C38CCCE8F17D629",
+    "decision_threshold": 0.5,
+    "min_word_threshold": 50,
+    "bootstrap_rounds": 1000,
+    "model_name": "Calibrated Linear SVM (Sublinear TF-IDF + 5 Stylometrics)"
+  },
+  "benchmarks": {
+    "kaggle_test_5k": {
+      "dataset_name": "Kaggle In-Domain (5k Slice)",
+      "rows_before_filter": 5000,
+      "rows_removed": 1,
+      "rows_evaluated": 4999,
+      "class_distribution": {
+        "human_count": 3107,
+        "ai_count": 1892
+      },
+      "confusion_matrix": {
+        "TN": 3105,
+        "FP": 2,
+        "FN": 5,
+        "TP": 1887
+      },
+      "accuracy": 0.9986,
+      "accuracy_ci95": [
+        0.9974,
+        0.9996
+      ],
+      "precision": 0.9989,
+      "recall": 0.9974,
+      "f1_score": 0.9981,
+      "f1_score_ci95": [
+        0.9966,
+        0.9995
+      ],
+      "balanced_accuracy": 0.9984,
+      "balanced_accuracy_ci95": [
+        0.997,
+        0.9995
+      ],
+      "macro_f1": 0.9985,
+      "false_positive_rate": 0.0006,
+      "specificity": 0.9994,
+      "roc_auc": 1.0
+    },
+    "kaggle_test_full": {
+      "dataset_name": "Kaggle In-Domain (Full 73k)",
+      "rows_before_filter": 73083,
+      "rows_removed": 10,
+      "rows_evaluated": 73073,
+      "class_distribution": {
+        "human_count": 45869,
+        "ai_count": 27204
+      },
+      "confusion_matrix": {
+        "TN": 45849,
+        "FP": 20,
+        "FN": 51,
+        "TP": 27153
+      },
+      "accuracy": 0.999,
+      "accuracy_ci95": [
+        0.9988,
+        0.9992
+      ],
+      "precision": 0.9993,
+      "recall": 0.9981,
+      "f1_score": 0.9987,
+      "f1_score_ci95": [
+        0.9984,
+        0.999
+      ],
+      "balanced_accuracy": 0.9988,
+      "balanced_accuracy_ci95": [
+        0.9986,
+        0.9991
+      ],
+      "macro_f1": 0.999,
+      "false_positive_rate": 0.0004,
+      "specificity": 0.9996,
+      "roc_auc": 1.0
+    },
+    "formal_human": {
+      "dataset_name": "Pre-2022 Formal Human / ESL (arXiv)",
+      "rows_before_filter": 14,
+      "rows_removed": 2,
+      "rows_evaluated": 12,
+      "class_distribution": {
+        "human_count": 12,
+        "ai_count": 0
+      },
+      "confusion_matrix": {
+        "TN": 0,
+        "FP": 12,
+        "FN": 0,
+        "TP": 0
+      },
+      "accuracy": 0.0,
+      "accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "false_positive_rate": 1.0,
+      "specificity": 0.0,
+      "recall": "not applicable",
+      "precision": "not applicable",
+      "f1_score": "not applicable",
+      "f1_score_ci95": "not applicable",
+      "balanced_accuracy": "not applicable",
+      "macro_f1": "not applicable",
+      "roc_auc": "not applicable",
+      "note": "Single-class dataset (Human-only). Recall, Precision, F1 and ROC-AUC are mathematically not applicable."
+    },
+    "hc3": {
+      "dataset_name": "HC3 Benchmark (Human vs ChatGPT QA)",
+      "rows_before_filter": 12,
+      "rows_removed": 2,
+      "rows_evaluated": 10,
+      "class_distribution": {
+        "human_count": 5,
+        "ai_count": 5
+      },
+      "confusion_matrix": {
+        "TN": 0,
+        "FP": 5,
+        "FN": 0,
+        "TP": 5
+      },
+      "accuracy": 0.5,
+      "accuracy_ci95": [
+        0.2,
+        0.8
+      ],
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "f1_score_ci95": [
+        0.3333,
+        0.8889
+      ],
+      "balanced_accuracy": 0.5,
+      "balanced_accuracy_ci95": [
+        0.5,
+        0.5
+      ],
+      "macro_f1": 0.3333,
+      "false_positive_rate": 1.0,
+      "specificity": 0.0,
+      "roc_auc": 0.68
+    },
+    "raid": {
+      "dataset_name": "RAID Benchmark (Multi-Generator)",
+      "rows_before_filter": 15,
+      "rows_removed": 4,
+      "rows_evaluated": 11,
+      "class_distribution": {
+        "human_count": 3,
+        "ai_count": 8
+      },
+      "confusion_matrix": {
+        "TN": 0,
+        "FP": 3,
+        "FN": 0,
+        "TP": 8
+      },
+      "accuracy": 0.7273,
+      "accuracy_ci95": [
+        0.4545,
+        1.0
+      ],
+      "precision": 0.7273,
+      "recall": 1.0,
+      "f1_score": 0.8421,
+      "f1_score_ci95": [
+        0.625,
+        1.0
+      ],
+      "balanced_accuracy": 0.5,
+      "balanced_accuracy_ci95": [
+        0.5,
+        1.0
+      ],
+      "macro_f1": 0.4211,
+      "false_positive_rate": 1.0,
+      "specificity": 0.0,
+      "roc_auc": 0.5833
+    },
+    "m4": {
+      "dataset_name": "M4 Benchmark (Wang et al., 2023)",
+      "rows_before_filter": 7,
+      "rows_removed": 3,
+      "rows_evaluated": 4,
+      "class_distribution": {
+        "human_count": 1,
+        "ai_count": 3
+      },
+      "confusion_matrix": {
+        "TN": 0,
+        "FP": 1,
+        "FN": 0,
+        "TP": 3
+      },
+      "accuracy": 0.75,
+      "accuracy_ci95": [
+        0.0,
+        1.0
+      ],
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1_score": 0.8571,
+      "f1_score_ci95": [
+        0.0,
+        1.0
+      ],
+      "balanced_accuracy": 0.5,
+      "balanced_accuracy_ci95": [
+        0.0,
+        1.0
+      ],
+      "macro_f1": 0.4286,
+      "false_positive_rate": 1.0,
+      "specificity": 0.0,
+      "roc_auc": 0.6667
+    },
+    "ood_creative": {
+      "dataset_name": "Out-of-Domain Creative Fiction",
+      "rows_before_filter": 6,
+      "rows_removed": 0,
+      "rows_evaluated": 6,
+      "class_distribution": {
+        "human_count": 3,
+        "ai_count": 3
+      },
+      "confusion_matrix": {
+        "TN": 0,
+        "FP": 3,
+        "FN": 0,
+        "TP": 3
+      },
+      "accuracy": 0.5,
+      "accuracy_ci95": [
+        0.1667,
+        0.8333
+      ],
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1_score": 0.6667,
+      "f1_score_ci95": [
+        0.2857,
+        0.9091
+      ],
+      "balanced_accuracy": 0.5,
+      "balanced_accuracy_ci95": [
+        0.5,
+        0.5
+      ],
+      "macro_f1": 0.3333,
+      "false_positive_rate": 1.0,
+      "specificity": 0.0,
+      "roc_auc": 0.1111
+    },
+    "paraphrased_adversarial": {
+      "dataset_name": "Paraphrased AI Evasion Test",
+      "rows_before_filter": 9,
+      "rows_removed": 8,
+      "rows_evaluated": 1,
+      "class_distribution": {
+        "human_count": 0,
+        "ai_count": 1
+      },
+      "confusion_matrix": {
+        "TN": 0,
+        "FP": 0,
+        "FN": 0,
+        "TP": 1
+      },
+      "accuracy": 1.0,
+      "accuracy_ci95": [
+        0.0,
+        1.0
+      ],
+      "recall": 1.0,
+      "false_positive_rate": "not applicable",
+      "specificity": "not applicable",
+      "precision": "not applicable",
+      "f1_score": "not applicable",
+      "f1_score_ci95": "not applicable",
+      "balanced_accuracy": "not applicable",
+      "macro_f1": "not applicable",
+      "roc_auc": "not applicable",
+      "note": "Single-class dataset (AI-only). FPR, Specificity, Precision, F1 and ROC-AUC are mathematically not applicable."
+    }
+  },
+  "raid_fine_grained_slices": {
+    "by_generator": {
+      "chatgpt": {
+        "count": 1,
+        "accuracy": 1.0,
+        "recall": 1.0
+      },
+      "gpt4": {
+        "count": 2,
+        "accuracy": 1.0,
+        "recall": 1.0
+      },
+      "human": {
+        "count": 3,
+        "accuracy": 0.0,
+        "recall": "not applicable"
+      },
+      "llama-chat": {
+        "count": 2,
+        "accuracy": 1.0,
+        "recall": 1.0
+      },
+      "mistral-chat": {
+        "count": 1,
+        "accuracy": 1.0,
+        "recall": 1.0
+      },
+      "mpt-chat": {
+        "count": 1,
+        "accuracy": 1.0,
+        "recall": 1.0
+      },
+      "text-davinci-003": {
+        "count": 1,
+        "accuracy": 1.0,
+        "recall": 1.0
+      }
+    },
+    "by_domain": {
+      "books": {
+        "count": 3,
+        "accuracy": 0.6667
+      },
+      "news": {
+        "count": 3,
+        "accuracy": 0.6667
+      },
+      "recipes": {
+        "count": 1,
+        "accuracy": 1.0
+      },
+      "reddit": {
+        "count": 2,
+        "accuracy": 0.5
+      },
+      "wikipedia": {
+        "count": 2,
+        "accuracy": 1.0
+      }
+    },
+    "by_adversarial_attack": {
+      "clean": {
+        "count": 9,
+        "accuracy": 0.6667,
+        "ai_detection_rate": 1.0
+      },
+      "insert_punctuation": {
+        "count": 1,
+        "accuracy": 1.0,
+        "ai_detection_rate": 1.0
+      },
+      "upper_case": {
+        "count": 1,
+        "accuracy": 1.0,
+        "ai_detection_rate": 1.0
+      }
+    }
+  },
+  "short_text_analysis": {
+    "kaggle_test_5k_short": {
+      "source": "Kaggle In-Domain (5k Slice)",
+      "count": 1,
+      "accuracy": 1.0,
+      "human_count": 0,
+      "ai_count": 1
+    },
+    "kaggle_test_full_short": {
+      "source": "Kaggle In-Domain (Full 73k)",
+      "count": 10,
+      "accuracy": 1.0,
+      "human_count": 1,
+      "ai_count": 9
+    },
+    "formal_human_short": {
+      "source": "Pre-2022 Formal Human / ESL (arXiv)",
+      "count": 2,
+      "accuracy": 0.0,
+      "human_count": 2,
+      "ai_count": 0
+    },
+    "hc3_short": {
+      "source": "HC3 Benchmark (Human vs ChatGPT QA)",
+      "count": 2,
+      "accuracy": 1.0,
+      "human_count": 1,
+      "ai_count": 1
+    },
+    "raid_short": {
+      "source": "RAID Benchmark (Multi-Generator)",
+      "count": 4,
+      "accuracy": 0.75,
+      "human_count": 1,
+      "ai_count": 3
+    },
+    "m4_short": {
+      "source": "M4 Benchmark (Wang et al., 2023)",
+      "count": 3,
+      "accuracy": 0.6667,
+      "human_count": 1,
+      "ai_count": 2
+    },
+    "ood_creative_short": {
+      "source": "Out-of-Domain Creative Fiction",
+      "count": 0,
+      "accuracy": "not applicable",
+      "human_count": 0,
+      "ai_count": 0
+    },
+    "paraphrased_adversarial_short": {
+      "source": "Paraphrased AI Evasion Test",
+      "count": 8,
+      "accuracy": 1.0,
+      "human_count": 0,
+      "ai_count": 8
+    }
+  },
+  "kaggle_internal_overlap_audit": {
+    "test_sample_evaluated": 3000,
+    "train_reference_size": 15000,
+    "lsh_jaccard_threshold": 0.8,
+    "near_duplicate_count": 551,
+    "near_duplicate_percentage": 18.37,
+    "clean_count": 2449,
+    "accuracy_overall": 0.9997,
+    "accuracy_with_near_duplicate": 1.0,
+    "accuracy_without_near_duplicate": 0.9996,
+    "wording_standard": "No exact or near-duplicate matches found at the 0.80 Jaccard threshold (MinHash is probabilistic)"
+  },
+  "validation_threshold_study": {
+    "roc_auc": 1.0,
+    "threshold_sweeps": [
+      {
+        "threshold": 0.1,
+        "precision": 0.9968,
+        "recall": 1.0,
+        "f1": 0.9984,
+        "fpr": 0.0019
+      },
+      {
+        "threshold": 0.2,
+        "precision": 0.9979,
+        "recall": 1.0,
+        "f1": 0.9989,
+        "fpr": 0.0013
+      },
+      {
+        "threshold": 0.3,
+        "precision": 0.9989,
+        "recall": 0.9995,
+        "f1": 0.9992,
+        "fpr": 0.0006
+      },
+      {
+        "threshold": 0.4,
+        "precision": 0.9989,
+        "recall": 0.9995,
+        "f1": 0.9992,
+        "fpr": 0.0006
+      },
+      {
+        "threshold": 0.5,
+        "precision": 0.9989,
+        "recall": 0.9989,
+        "f1": 0.9989,
+        "fpr": 0.0006
+      },
+      {
+        "threshold": 0.6,
+        "precision": 0.9989,
+        "recall": 0.9979,
+        "f1": 0.9984,
+        "fpr": 0.0006
+      },
+      {
+        "threshold": 0.7,
+        "precision": 0.9995,
+        "recall": 0.9974,
+        "f1": 0.9984,
+        "fpr": 0.0003
+      },
+      {
+        "threshold": 0.8,
+        "precision": 0.9995,
+        "recall": 0.9963,
+        "f1": 0.9979,
+        "fpr": 0.0003
+      },
+      {
+        "threshold": 0.9,
+        "precision": 0.9995,
+        "recall": 0.9942,
+        "f1": 0.9968,
+        "fpr": 0.0003
+      },
+      {
+        "threshold": 0.95,
+        "precision": 0.9995,
+        "recall": 0.9905,
+        "f1": 0.995,
+        "fpr": 0.0003
+      }
+    ]
+  },
+  "calibration_analysis": {
+    "brier_score": 0.0006,
+    "expected_calibration_error": 0.0011
+  },
+  "length_stratification_analysis": {
+    "< 50 words": {
+      "count": 1,
+      "accuracy": 1.0
+    },
+    "50-100 words": {
+      "count": 36,
+      "accuracy": 1.0
+    },
+    "100-250 words": {
+      "count": 1774,
+      "accuracy": 0.9994
+    },
+    "250-500 words": {
+      "count": 6113,
+      "accuracy": 0.9992
+    },
+    "> 500 words": {
+      "count": 2076,
+      "accuracy": 1.0
+    }
+  }
+}
